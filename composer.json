@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2.5",
+        "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^1.12",
@@ -23,6 +23,7 @@
         "symfony/yaml": "5.2.*"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.18",
         "symfony/phpunit-bridge": "^5.2"
     },
     "config": {
