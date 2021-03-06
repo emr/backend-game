@@ -6,6 +6,10 @@
       <option name="CUSTOM_RULESET_PATH" value="$PROJECT_DIR$/.php_cs.dist" />
       <option name="ALLOW_RISKY_RULES" value="true" />
     </inspection_tool>
+    <inspection_tool class="PhpDocRedundantThrowsInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PhpDocSignatureInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ALLOW_MISSING_PARAMETERS" value="true" />
+    </inspection_tool>
     <inspection_tool class="PhpStanGlobal" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="FULL_PROJECT" value="true" />
       <option name="config" value="$PROJECT_DIR$/phpstan.neon" />
