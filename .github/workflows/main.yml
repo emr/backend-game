@@ -58,4 +58,4 @@ jobs:
               run: bin/phpunit --testdox
 
             - name: Static analysis
-              run: php -d memory_limit=2G vendor/bin/phpstan analyse -c phpstan.ci.neon
+              run: php -d memory_limit=2G vendor/bin/phpstan analyse
