@@ -38,7 +38,7 @@ jobs:
               run: vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --verbose
 
             - name: Run test suites
-              run: bin/phpunit
+              run: bin/phpunit --testdox
 
             - name: Static analysis
               run: vendor/bin/phpstan analyse
