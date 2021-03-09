@@ -44,7 +44,7 @@ class UserServiceTest extends TestCase
 
         static::assertNotNull($user2->id);
         static::assertSame($user2, $this->userService->findById($user2->id));
-        static::assertNull($this->userService->findById('non-existing-id'));
+        static::assertNull($this->userService->findById(99));
     }
 
     public function testFindByUsername(): void

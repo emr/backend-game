@@ -17,13 +17,13 @@ class RedisUserStorage implements UserStorage
     public function persist(User $user): void
     {
         $id = $this->client->incr(self::INCREMENTER_KEY);
-        $user->id = (string) $id;
+        $user->id = $id;
 
         $this->client->hMSet(self::USER_HASH_NAMESPACE.$id, [
             'username' => $user->username,
             'password' => $user->password,
         ]);
-        $this->client->hSet(self::USERNAME_TO_ID_HASH_KEY, $user->username, $user->id);
+        $this->client->hSet(self::USERNAME_TO_ID_HASH_KEY, $user->username, (string) $user->id);
     }
 
     public function usernameExists(string $username): bool
@@ -31,7 +31,7 @@ class RedisUserStorage implements UserStorage
         return false !== $this->client->hGet(self::USERNAME_TO_ID_HASH_KEY, $username);
     }
 
-    public function findById(string $id): ?User
+    public function findById(int $id): ?User
     {
         $data = $this->client->hGetAll(self::USER_HASH_NAMESPACE.$id);
 
@@ -53,6 +53,6 @@ class RedisUserStorage implements UserStorage
             return null;
         }
 
-        return $this->findById($id);
+        return $this->findById((int) $id);
     }
 }

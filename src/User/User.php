@@ -7,7 +7,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class User
 {
     #[Groups(['signUp', 'signIn'])]
-    public string | null $id;
+    public int | null $id;
 
     #[Groups(['signUp', 'signIn'])]
     public string $username;

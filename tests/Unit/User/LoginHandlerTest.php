@@ -12,10 +12,10 @@ class LoginHandlerTest extends TestCase
     {
         $loginHandler = new LoginHandler(new InMemorySessionStorage());
 
-        static::assertFalse($loginHandler->hasLoggedIn('id'));
-        $loginHandler->login('id');
-        static::assertTrue($loginHandler->hasLoggedIn('id'));
-        $loginHandler->logout('id');
-        static::assertFalse($loginHandler->hasLoggedIn('id'));
+        static::assertFalse($loginHandler->hasLoggedIn(8));
+        $loginHandler->login(8);
+        static::assertTrue($loginHandler->hasLoggedIn(8));
+        $loginHandler->logout(8);
+        static::assertFalse($loginHandler->hasLoggedIn(8));
     }
 }

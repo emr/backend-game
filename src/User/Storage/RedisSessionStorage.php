@@ -10,18 +10,18 @@ class RedisSessionStorage implements SessionStorage
     {
     }
 
-    public function add(string $id): void
+    public function add(int $id): void
     {
-        $this->client->sAdd(self::SET_KEY, $id);
+        $this->client->sAdd(self::SET_KEY, (string) $id);
     }
 
-    public function remove(string $id): void
+    public function remove(int $id): void
     {
-        $this->client->sRem(self::SET_KEY, $id);
+        $this->client->sRem(self::SET_KEY, (string) $id);
     }
 
-    public function has(string $id): bool
+    public function has(int $id): bool
     {
-        return $this->client->sIsMember(self::SET_KEY, $id);
+        return $this->client->sIsMember(self::SET_KEY, (string) $id);
     }
 }

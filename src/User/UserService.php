@@ -23,7 +23,7 @@ class UserService
         return $user;
     }
 
-    public function findById(string $id): ?User
+    public function findById(int $id): ?User
     {
         return $this->userStorage->findById($id);
     }
