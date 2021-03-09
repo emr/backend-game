@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+    api:
+        build: .
+        ports:
+            - "80:80"
+        volumes:
+            - .:/var/www/app
+        links:
+            - redis
+    redis:
+        image: redis
