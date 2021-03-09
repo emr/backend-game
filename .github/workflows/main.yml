@@ -37,8 +37,8 @@ jobs:
             - name: Check code style
               run: vendor/bin/php-cs-fixer fix --allow-risky=yes --dry-run --verbose
 
-            - name: Static analysis
-              run: vendor/bin/phpstan analyse
-
             - name: Run test suites
               run: bin/phpunit
+
+            - name: Static analysis
+              run: vendor/bin/phpstan analyse
