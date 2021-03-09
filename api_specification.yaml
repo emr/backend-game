@@ -105,7 +105,7 @@ components:
             properties:
                 status:
                     type: string
-                    enum: [succes]
+                    enum: [success]
                 timestamp:
                     type: string
                     format: date-time
