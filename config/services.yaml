@@ -18,6 +18,7 @@ services:
         exclude:
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/Http/Schema'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -25,3 +26,11 @@ services:
         resource: '../src/Http/Controller/'
         tags: ['controller.service_arguments']
 
+    Redis:
+        class: Redis
+        calls:
+            - [connect, ['%env(REDIS_HOST)%', '%env(REDIS_PORT)%']]
+            - [select, ['%env(REDIS_DB)%']]
+
+    App\User\Storage\UserStorage: '@App\User\Storage\RedisUserStorage'
+    App\User\Storage\SessionStorage: '@App\User\Storage\RedisSessionStorage'
