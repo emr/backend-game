@@ -7,5 +7,6 @@ COPY composer.json composer.lock symfony.lock ./
 RUN composer install --no-scripts
 VOLUME /var/www/app/vendor
 VOLUME /var/www/app/var
+VOLUME /var/www/app/bin/.phpunit
 EXPOSE 80
 CMD ["php", "-S", "0.0.0.0:80", "public/index.php"]
