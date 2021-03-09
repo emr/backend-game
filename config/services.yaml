@@ -33,3 +33,4 @@ services:
             - [select, ['%env(REDIS_DB)%']]
 
     App\User\Storage\UserStorage: '@App\User\Storage\RedisUserStorage'
+    App\User\Storage\SessionStorage: '@App\User\Storage\RedisSessionStorage'
