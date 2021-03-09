@@ -1,0 +1,44 @@
+name: Main
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    build:
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Validate composer.json and composer.lock
+              run: composer validate --strict
+
+            - name: Cache Composer packages
+              id: composer-cache
+              uses: actions/cache@v2
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+
+            - name: Cache PHPUnit dependencies
+              id: phpunit-cache
+              uses: actions/cache@v2
+              with:
+                  path: bin/.phpunit
+                  key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}-${{ hashFiles('**/phpunit.xml.dist') }}
+
+            - name: Install dependencies
+              run: composer install --prefer-dist --no-progress --no-suggest
+
+            - name: Check code style
+              run: vendor/bin/php-cs-fixer --allow-risky=yes --dry-run --verbose
+
+            - name: Static analysis
+              run: vendor/bin/phpstan analyse
+
+            - name: Run test suites
+              run: bin/phpunit
