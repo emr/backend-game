@@ -1,0 +1,134 @@
+openapi: 3.0.1
+info:
+    title: Backend Game
+    description: This is the implementation of "Backend Game Project".
+    contact:
+        email: emre@emreakinci.com.tr
+    version: 1.0.0
+servers:
+    - url: /api/v1/
+tags:
+    - name: user
+paths:
+    /user/signup:
+        post:
+            tags:
+                - user
+            summary: Sign up a new user
+            operationId: signup
+            requestBody:
+                description: Credentials
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/CreateUser"
+            responses:
+                200:
+                    description: User was successfully signed up
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SignUpResponse'
+                400:
+                    description: Validation error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiErrorResponse'
+                            example:
+                                code: 400
+                                message: "Username should not be empty"
+    /user/signin:
+        post:
+            tags:
+                - user
+            summary: Sign in to the game
+            operationId: signin
+            parameters: []
+            responses:
+                200:
+                    description: User was successfully signed in to the game
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SignInResponse'
+                400:
+                    description: Validation error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiErrorResponse'
+                            example:
+                                code: 400
+                                message: "Username should not be empty"
+                401:
+                    description: Bad credentials
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiErrorResponse'
+                            example:
+                                code: 401
+                                message: "Bad credentials"
+
+components:
+    schemas:
+        CreateUser:
+            required:
+                - password
+                - username
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+        User:
+            type: object
+            properties:
+                id:
+                    type: string
+                username:
+                    type: string
+        UserRegistrationData:
+            type: object
+            properties:
+                id:
+                    type: string
+                username:
+                    type: string
+                password:
+                    type: string
+        ApiSuccessResponse:
+            type: object
+            properties:
+                status:
+                    type: string
+                    enum: [succes]
+                timestamp:
+                    type: string
+                    format: date-time
+                result:
+                    type: object
+        ApiErrorResponse:
+            type: object
+            properties:
+                code:
+                    type: integer
+                message:
+                    type: string
+        SignUpResponse:
+            allOf:
+                - $ref: '#/components/schemas/ApiSuccessResponse'
+                - type: object
+                  properties:
+                      result:
+                          $ref: '#/components/schemas/UserRegistrationData'
+        SignInResponse:
+            allOf:
+                - $ref: '#/components/schemas/ApiSuccessResponse'
+                - type: object
+                  properties:
+                      result:
+                          $ref: '#/components/schemas/User'
