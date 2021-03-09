@@ -20,9 +20,14 @@ class InMemoryUserStorage implements UserStorage
 
     public function persist(User $user): void
     {
-        $user->id = (string) $this->idIncrementer++;
+        $user->id = $this->generateId();
         $this->usernameToId[$user->username] = $user->id;
         $this->users[$user->id] = $user;
+    }
+
+    private function generateId(): string
+    {
+        return (string) $this->idIncrementer++;
     }
 
     public function usernameExists(string $username): bool
