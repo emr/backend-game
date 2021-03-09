@@ -88,14 +88,14 @@ components:
             type: object
             properties:
                 id:
-                    type: string
+                    type: integer
                 username:
                     type: string
         UserRegistrationData:
             type: object
             properties:
                 id:
-                    type: string
+                    type: integer
                 username:
                     type: string
                 password:

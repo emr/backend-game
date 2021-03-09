@@ -40,7 +40,7 @@ class InMemoryUserStorageTest extends TestCase
 
     public function testFindById(): void
     {
-        static::assertNull($this->storage->findById('1'));
+        static::assertNull($this->storage->findById(1));
 
         $user = new User('test', '123');
         $this->storage->persist($user);
@@ -51,7 +51,7 @@ class InMemoryUserStorageTest extends TestCase
 
     public function testFindByUsername(): void
     {
-        static::assertNull($this->storage->findById('1'));
+        static::assertNull($this->storage->findById(1));
 
         $user = new User('test', '123');
         $this->storage->persist($user);

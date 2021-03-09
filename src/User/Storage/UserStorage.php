@@ -10,7 +10,7 @@ interface UserStorage
 
     public function usernameExists(string $username): bool;
 
-    public function findById(string $id): ?User;
+    public function findById(int $id): ?User;
 
     public function findByUsername(string $username): ?User;
 }

@@ -9,25 +9,20 @@ class InMemoryUserStorage implements UserStorage
     private int $idIncrementer = 1;
 
     /**
-     * @var array<string, string>
+     * @var array<string, int>
      */
     private array $usernameToId = [];
 
     /**
-     * @var array<string, User>
+     * @var array<int, User>
      */
     private array $users = [];
 
     public function persist(User $user): void
     {
-        $user->id = $this->generateId();
+        $user->id = $this->idIncrementer++;
         $this->usernameToId[$user->username] = $user->id;
         $this->users[$user->id] = $user;
-    }
-
-    private function generateId(): string
-    {
-        return (string) $this->idIncrementer++;
     }
 
     public function usernameExists(string $username): bool
@@ -35,7 +30,7 @@ class InMemoryUserStorage implements UserStorage
         return \array_key_exists($username, $this->usernameToId);
     }
 
-    public function findById(string $id): ?User
+    public function findById(int $id): ?User
     {
         return $this->users[$id] ?? null;
     }

@@ -11,10 +11,10 @@ class InMemorySessionStorageTest extends TestCase
     {
         $storage = new InMemorySessionStorage();
 
-        static::assertFalse($storage->has('test'));
-        $storage->add('test');
-        static::assertTrue($storage->has('test'));
-        $storage->remove('test');
-        static::assertFalse($storage->has('test'));
+        static::assertFalse($storage->has(9));
+        $storage->add(9);
+        static::assertTrue($storage->has(9));
+        $storage->remove(9);
+        static::assertFalse($storage->has(9));
     }
 }

@@ -4,9 +4,9 @@ namespace App\User\Storage;
 
 interface SessionStorage
 {
-    public function add(string $id): void;
+    public function add(int $id): void;
 
-    public function remove(string $id): void;
+    public function remove(int $id): void;
 
-    public function has(string $id): bool;
+    public function has(int $id): bool;
 }
