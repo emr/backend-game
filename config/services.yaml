@@ -26,3 +26,10 @@ services:
         resource: '../src/Http/Controller/'
         tags: ['controller.service_arguments']
 
+    Redis:
+        class: Redis
+        calls:
+            - [connect, ['%env(REDIS_HOST)%', '%env(REDIS_PORT)%']]
+            - [select, ['%env(REDIS_DB)%']]
+
+    App\User\Storage\UserStorage: '@App\User\Storage\RedisUserStorage'
