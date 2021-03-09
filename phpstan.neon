@@ -1,5 +1,15 @@
+includes:
+	- vendor/phpstan/phpstan-phpunit/extension.neon
+	- vendor/phpstan/phpstan-phpunit/rules.neon
+	- vendor/phpstan/phpstan-symfony/extension.neon
+	- vendor/phpstan/phpstan-symfony/rules.neon
 parameters:
+	bootstrapFiles:
+		- vendor/autoload.php
+		- bin/.phpunit/phpunit/vendor/autoload.php
 	level: max
 	paths:
 		- src
 		- tests
+	symfony:
+		container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
