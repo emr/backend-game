@@ -36,7 +36,8 @@ class AuthController
                 new SuccessResponse($user),
                 'json',
                 ['groups' => ['response', 'signUp']]
-            )
+            ),
+            JsonResponse::HTTP_CREATED
         );
     }
 
