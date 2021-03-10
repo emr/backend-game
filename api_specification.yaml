@@ -9,12 +9,13 @@ servers:
     - url: /api/v1/
 tags:
     - name: user
+    - name: game
 paths:
     /user/signup:
         post:
             tags:
                 - user
-            summary: Sign up a new user
+            summary: Signs up a new user
             operationId: signup
             requestBody:
                 description: Credentials
@@ -24,28 +25,40 @@ paths:
                         schema:
                             $ref: "#/components/schemas/CreateUser"
             responses:
-                200:
-                    description: User was successfully signed up
+                201:
+                    description: User was successfully created
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/SignUpResponse'
                 400:
-                    description: Validation error
+                    description: Validation error.
                     content:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ApiErrorResponse'
-                            example:
-                                code: 400
-                                message: "Username should not be empty"
+                            examples:
+                                Empty username:
+                                    value:
+                                        code: 400
+                                        message: Username should not be empty
+                                Duplicate username:
+                                    value:
+                                        code: 400
+                                        message: Username "user87934" is already in use
     /user/signin:
         post:
             tags:
                 - user
-            summary: Sign in to the game
+            summary: Signs in the user for the game
             operationId: signin
-            parameters: []
+            requestBody:
+                description: Credentials.
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/CreateUser"
             responses:
                 200:
                     description: User was successfully signed in to the game
@@ -71,6 +84,51 @@ paths:
                             example:
                                 code: 401
                                 message: "Bad credentials"
+    /endgame:
+        post:
+            tags:
+                - game
+            summary: Ends the game between players
+            description: |
+                Ends the game between players and saves the scores.
+
+                Accepts only logged in user ids. Deletes provided users' sessions.
+
+                A player only can have one score. Sending multiple scores for a user causes bad request.
+            operationId: endgame
+            requestBody:
+                description: Scores with player ids
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/EndGameRequest"
+            responses:
+                200:
+                    description: Scores were successfully saved and users were logged out
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/EndGameResponse'
+                400:
+                    description: Validation error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiErrorResponse'
+                            examples:
+                                Invalid player id:
+                                    value:
+                                        code: 400
+                                        message: Invalid player id "0"
+                                Player has multiple scores:
+                                    value:
+                                        code: 400
+                                        message: Player with id "23" has multiple scores
+                                Player has not logged in:
+                                    value:
+                                        code: 400
+                                        message: Player with id "23" has not logged
 
 components:
     schemas:
@@ -84,6 +142,9 @@ components:
                     type: string
                 password:
                     type: string
+            example:
+                username: user87934
+                password: 123
         User:
             type: object
             properties:
@@ -91,6 +152,9 @@ components:
                     type: integer
                 username:
                     type: string
+            example:
+                id: 23
+                username: user87934
         UserRegistrationData:
             type: object
             properties:
@@ -100,6 +164,33 @@ components:
                     type: string
                 password:
                     type: string
+            example:
+                id: 22
+                username: user87934
+                password: 123
+        PlayerScore:
+            type: object
+            properties:
+                id:
+                    type: integer
+                score:
+                    type: number
+            example:
+                id: 22
+                score: 372
+        EndGameRequest:
+            type: object
+            properties:
+                scores:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/PlayerScore'
+            example:
+                scores:
+                    - id: 3
+                      score: 40
+                    - id: 9
+                      score: 13.82
         ApiSuccessResponse:
             type: object
             properties:
@@ -118,6 +209,9 @@ components:
                     type: integer
                 message:
                     type: string
+            example:
+                code: 418
+                message: I'm a teapot
         SignUpResponse:
             allOf:
                 - $ref: '#/components/schemas/ApiSuccessResponse'
@@ -132,3 +226,12 @@ components:
                   properties:
                       result:
                           $ref: '#/components/schemas/User'
+        EndGameResponse:
+            allOf:
+                - $ref: '#/components/schemas/ApiSuccessResponse'
+                - type: object
+                  properties:
+                      result:
+                          type: array
+                          items:
+                              $ref: '#/components/schemas/PlayerScore'
