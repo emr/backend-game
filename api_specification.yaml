@@ -33,7 +33,7 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/SignUpResponse'
                 400:
-                    description: Validation error.
+                    description: Validation error
                     content:
                         application/json:
                             schema:
@@ -54,7 +54,7 @@ paths:
             summary: Signs in the user for the game
             operationId: signin
             requestBody:
-                description: Credentials.
+                description: Credentials
                 required: true
                 content:
                     application/json:
@@ -93,7 +93,7 @@ paths:
             description: |
                 Ends the game between players and saves the scores.
 
-                Accepts only logged in user ids. Deletes provided users' sessions.
+                Accepts only user ids who signed up for the game. After that deletes provided users' sessions.
 
                 A player only can have one score. Sending multiple scores for a user causes bad request.
             operationId: endgame
@@ -129,7 +129,7 @@ paths:
                                 Player has not logged in:
                                     value:
                                         code: 400
-                                        message: Player with id "23" has not logged
+                                        message: Player with id "23" has not logged in
     /leaderboard:
         get:
             tags:
@@ -168,7 +168,7 @@ components:
                     type: string
             example:
                 username: user87934
-                password: 123
+                password: user123
         User:
             type: object
             properties:
@@ -191,7 +191,7 @@ components:
             example:
                 id: 22
                 username: user87934
-                password: 123
+                password: user123
         PlayerScore:
             type: object
             properties:
