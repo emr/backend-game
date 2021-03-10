@@ -10,6 +10,7 @@ servers:
 tags:
     - name: user
     - name: game
+    - name: leaderboard
 paths:
     /user/signup:
         post:
@@ -129,7 +130,30 @@ paths:
                                     value:
                                         code: 400
                                         message: Player with id "23" has not logged
-
+    /leaderboard:
+        get:
+            tags:
+                - leaderboard
+            summary: Returns the leaderboard table
+            operationId: leaderboard
+            parameters:
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                      default: 1
+                - in: query
+                  name: limit
+                  schema:
+                      type: integer
+                      default: 10
+            responses:
+                200:
+                    description: Successful
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LeaderboardResponse'
 components:
     schemas:
         CreateUser:
@@ -235,3 +259,46 @@ components:
                           type: array
                           items:
                               $ref: '#/components/schemas/PlayerScore'
+        PaginationMeta:
+            type: object
+            properties:
+                itemCount:
+                    type: integer
+                totalItems:
+                    type: integer
+                totalPage:
+                    type: integer
+                currentPage:
+                    type: integer
+            example:
+                itemCount: 12
+                totalItems: 993
+                totalPage: 83
+                currentPage: 2
+        PlayerRank:
+            type: object
+            properties:
+                id:
+                    type: integer
+                username:
+                    type: string
+                rank:
+                    type: number
+            example:
+                id: 22
+                username: user87934
+                rank: 489.902
+        LeaderboardResponse:
+            allOf:
+                - $ref: '#/components/schemas/ApiSuccessResponse'
+                - type: object
+                  properties:
+                      result:
+                          type: object
+                          properties:
+                              list:
+                                  type: array
+                                  items:
+                                      $ref: '#/components/schemas/PlayerRank'
+                              meta:
+                                  $ref: '#/components/schemas/PaginationMeta'
