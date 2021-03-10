@@ -44,7 +44,7 @@ class SignInTest extends TestCase
             ],
             'Invalid request body' => [
                 'this is not a json string',
-                '{"message":"Invalid request body","code":400}',
+                '{"message":"Request body is not a valid json","code":400}',
                 400,
             ],
             'Bad credentials' => [

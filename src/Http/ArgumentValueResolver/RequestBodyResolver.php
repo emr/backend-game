@@ -58,7 +58,7 @@ class RequestBodyResolver implements ArgumentValueResolverInterface
         try {
             $body = $this->serializer->deserialize($data, $class, 'json', ['allow_extra_attributes' => false]);
         } catch (NotEncodableValueException) {
-            throw new BadRequestHttpException('Invalid request body');
+            throw new BadRequestHttpException('Request body is not a valid json');
         } catch (NotNormalizableValueException | ExtraAttributesException) {
             throw new BadRequestHttpException('Request schema is invalid');
         }
