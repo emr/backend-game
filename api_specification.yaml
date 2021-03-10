@@ -168,7 +168,7 @@ components:
                     type: string
             example:
                 username: user87934
-                password: 123
+                password: user123
         User:
             type: object
             properties:
@@ -191,7 +191,7 @@ components:
             example:
                 id: 22
                 username: user87934
-                password: 123
+                password: user123
         PlayerScore:
             type: object
             properties:
