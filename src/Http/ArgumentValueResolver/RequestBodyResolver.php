@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Serializer\Exception\ExtraAttributesException;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Exception\RuntimeException as SerializerRuntimeException;
@@ -55,10 +56,10 @@ class RequestBodyResolver implements ArgumentValueResolverInterface
         }
 
         try {
-            $body = $this->serializer->deserialize($data, $class, 'json');
+            $body = $this->serializer->deserialize($data, $class, 'json', ['allow_extra_attributes' => false]);
         } catch (NotEncodableValueException) {
             throw new BadRequestHttpException('Invalid request body');
-        } catch (NotNormalizableValueException) {
+        } catch (NotNormalizableValueException | ExtraAttributesException) {
             throw new BadRequestHttpException('Request schema is invalid');
         }
 
