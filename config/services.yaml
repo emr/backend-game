@@ -36,3 +36,8 @@ services:
 
     App\User\Storage\UserStorage: '@App\User\Storage\RedisUserStorage'
     App\User\Storage\SessionStorage: '@App\User\Storage\RedisSessionStorage'
+    App\Rank\Storage\RankStorage: '@App\Rank\Storage\RedisRankStorage'
+
+    App\Rank\Leaderboard:
+        bind:
+            int $size: '%env(LEADERBOARD_SIZE)%'
